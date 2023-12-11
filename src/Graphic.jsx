@@ -1,36 +1,45 @@
-import { useEffect } from "react"
-import * as d3 from 'd3'
-import Header from "./Header";
+import { useEffect, useState } from 'react';
+import * as d3 from 'd3';
+import Header from './Header';
+import { urlKick, urlVideo, urlMovie } from './data';
+import Svg from './Svg';
 
-const [url1, url2, url3] = [
-  'https://cdn.freecodecamp.org/testable-projects-fcc/data/tree_map/kickstarter-funding-data.json',
-  'https://cdn.freecodecamp.org/testable-projects-fcc/data/tree_map/movie-data.json',
-  'https://cdn.freecodecamp.org/testable-projects-fcc/data/tree_map/video-game-sales-data.json',
-]; 
 function Graphic() {
+  const [dataKick, setDataKick] = useState({});
+  const [dataMovie, setDataMovie] = useState({});
+  const [dataVideo, setDataVideo] = useState({});
+  const [activeTab, setActiveTab] = useState(1);
+
   useEffect(() => {
     const fetchData = async () => {
-    try {
-      const [data1, data2, data3]= await Promise.all([d3.json(url1), d3.json(url2), d3.json(url3)])
 
-      console.log(data1)
-      console.log(data2)
-      console.log(data3);
+      try {
+        const [data1, data2, data3] = await Promise.all([
+          d3.json(urlKick),
+          d3.json(urlMovie),
+          d3.json(urlVideo),
+        ]);
+        setDataKick(data1);
+        setDataMovie(data2);
+        setDataVideo(data3);
 
-    } catch (err) {
-      console.log(err)
-    }
-  }
+       /*  console.log(data1);
+        console.log(data2);
+        console.log(data3); */
+      } catch (err) {
+        console.log(err);
+      }
+    };
 
-    fetchData()
-},[])
-
+    fetchData();
+  }, []);
 
   return (
     <>
-      <Header />
+      <Header setActiveTab={setActiveTab} />
+      <Svg dataKick={dataKick} dataMovie={dataMovie} dataVideo={dataVideo} activeTab={activeTab} />
     </>
-  )
+  );
 }
 
-export default Graphic
+export default Graphic;
