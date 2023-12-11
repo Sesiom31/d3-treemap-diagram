@@ -35,7 +35,7 @@ function Kickstarter({ data, title, description }) {
       let branch = d3
         .select(svgMainRef.current)
         .selectAll('g')
-        .data(root.descendants())
+        .data(root.leaves())
         .enter()
         .append('g')
         .attr('transform', (d) => `translate(${d.x0}, ${d.y0})`)
@@ -119,7 +119,7 @@ function Kickstarter({ data, title, description }) {
   return (
     <div className="container-main">
       <h1 id="title">{title}</h1>
-      <span id="decription">{description}</span>
+      <span id="description">{description}</span>
       <svg ref={svgMainRef} width={wMain} height={hMain}></svg>
       <svg id="legend" ref={svgLegendRef} width={wLegend} height={hLegend}></svg>
 
